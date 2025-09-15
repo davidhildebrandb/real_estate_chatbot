@@ -1,5 +1,5 @@
 // Config
-const LEAD_ENDPOINT = "https://yourproject.vercel.app/api/lead-capture"; // replace with your deployed Vercel URL
+const LEAD_ENDPOINT = "https://real-estate-chatbot-wewk.vercel.app/api/lead-capture";
 const RECAPTCHA_SITE_KEY = "YOUR_RECAPTCHA_SITE_KEY"; // replace with your site key
 
 // Helper to create elements
