@@ -1,7 +1,5 @@
-const LEAD_ENDPOINT = "https://real-estate-chatbot-abcd.vercel.app/api/lead-capture";
-const RECAPTCHA_SITE_KEY = "YOUR_SITE_KEY_HERE"; 
+const LEAD_ENDPOINT = "https://real-estate-chatbot-ABCD.vercel.app/api/lead-capture";
 
-// Helper
 function createElement(tag, props = {}, ...children) {
   const el = document.createElement(tag);
   Object.entries(props).forEach(([k,v]) => el[k] = v);
@@ -9,7 +7,6 @@ function createElement(tag, props = {}, ...children) {
   return el;
 }
 
-// Chat button
 const chatButton = createElement('button', { innerText: 'W', style: `
   position: fixed; bottom: 20px; right: 20px;
   background: #c81c29; color: white; border: none; border-radius: 50%;
@@ -17,7 +14,6 @@ const chatButton = createElement('button', { innerText: 'W', style: `
 `});
 document.body.appendChild(chatButton);
 
-// Chat window
 const chatWindow = createElement('div', { style: `
   position: fixed; bottom: 90px; right: 20px; width: 320px; max-height: 500px;
   background: #093157; color: white; border-radius: 10px; padding: 10px; display: none;
@@ -29,7 +25,6 @@ chatWindow.style.display = 'flex';
 
 const leadData = { isSeller: false };
 
-// Chat helpers
 function addMessage(text, from='bot') {
   const msg = createElement('div', { style: `margin:5px 0; text-align:${from==='bot'?'left':'right'};` }, text);
   chatWindow.appendChild(msg);
@@ -46,7 +41,6 @@ function addQuickReplies(options, callback) {
   chatWindow.appendChild(container);
 }
 
-// Chat sequence
 function startChat() {
   addMessage("Hi! I'm Wayne's virtual assistant. Are you looking to buy or sell?");
   addQuickReplies(["Buy", "Sell", "Both"], (resp) => {
@@ -109,15 +103,13 @@ function askConsent() {
   });
 }
 
-// Submit lead
 async function submitLead() {
   addMessage("Submitting your info...");
   try {
-    const token = await grecaptcha.execute(RECAPTCHA_SITE_KEY, {action:'submit'});
     const response = await fetch(LEAD_ENDPOINT, {
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ ...leadData, token })
+      body: JSON.stringify({ ...leadData })
     });
     const data = await response.json();
     if(data.success) addMessage("Thanks! Your info has been captured. Wayne will be in touch soon.");
@@ -128,9 +120,4 @@ async function submitLead() {
   }
 }
 
-// Load reCAPTCHA
-const recaptchaScript = document.createElement('script');
-recaptchaScript.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
-recaptchaScript.onload = startChat;
-document.head.appendChild(recaptchaScript);
-
+startChat();
