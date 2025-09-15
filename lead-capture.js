@@ -3,22 +3,17 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { name, email, phone, budget, location, propertyType, timeline, isSeller, consent, token } = req.body;
+  const { name, email, phone, budget, location, propertyType, timeline, isSeller, consent } = req.body;
 
-  // reCAPTCHA validation
-  if (!token) return res.status(400).json({ error: "reCAPTCHA token missing" });
+  if (!consent) return res.status(400).json({ error: "Consent required" });
 
   try {
-    const recaptchaResponse = await fetch(`https://www.google.com/recaptcha/api/siteverify`, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `secret=${process.env.RECAPTCHA_SECRET}&response=${token}`,
-    });
-
-    const recaptchaData = await recaptchaResponse.json();
-    if (!recaptchaData.success) return res.status(400).json({ error: "reCAPTCHA validation failed" });
-
-    if (!consent) return res.status(400).json({ error: "Consent required" });
-
-    // Instead of sending emails, just log lead for now
+    // Log the lead (no email, no reCAPTCHA)
     console.log("Lead captured:", { name, email, phone, budget, location, propertyType, timeline, isSeller });
+
+    return res.status(200).json({ success: true, message: "Lead captured successfully (no emails sent)" });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Failed to capture lead" });
+  }
+}
