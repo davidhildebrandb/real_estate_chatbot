@@ -1,4 +1,4 @@
-const LEAD_ENDPOINT = "https://real-estate-chatbot-abcde-i37g91lkb-david-hildebrands-projects.vercel.app/api/lead-capture";
+const LEAD_ENDPOINT = "https://real-estate-chatbot-abcde.vercel.app/api/lead-capture";
 
 function createElement(tag, props = {}, ...children) {
   const el = document.createElement(tag);
