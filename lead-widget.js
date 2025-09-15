@@ -1,5 +1,5 @@
-const LEAD_ENDPOINT = "https://real-estate-chatbot-abcd.vercel.app/api/lead-capture"; // Your Vercel API
-const RECAPTCHA_SITE_KEY = "YOUR_SITE_KEY_HERE"; // Replace with your site key
+const LEAD_ENDPOINT = "https://real-estate-chatbot-abcd.vercel.app/api/lead-capture";
+const RECAPTCHA_SITE_KEY = "YOUR_SITE_KEY_HERE"; 
 
 // Helper
 function createElement(tag, props = {}, ...children) {
